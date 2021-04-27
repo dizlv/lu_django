@@ -33,6 +33,6 @@ def upload_photo(request):
 
 
 def view_photo(request, photo_id):
-    photo = models.Photo.objects.filter(id=photo_id)
+    photo = models.Photo.objects.get(id=photo_id)
 
     return HttpResponse(f'Picture path: {photo.picture}')
