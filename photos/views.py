@@ -1,5 +1,6 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.views.generic import FormView, DetailView
+
 
 from photos import (
     forms,
@@ -7,32 +8,18 @@ from photos import (
 )
 
 
-def upload_photo(request):
-    if request.method == 'POST':
-        form = forms.PhotoUploadForm(
-            data=request.POST,
-            files=request.FILES,
+class PhotoUploadFormView(FormView):
+    form_class = forms.PhotoUploadForm
+    template_name = 'photos/upload.html'
+
+    def form_valid(self, form):
+        photo = form.save()
+
+        return redirect(
+            to='photo-detail',
+            pk=photo.id,
         )
 
-        if form.is_valid():
-            form.save()
 
-            return HttpResponse('File uploaded')
-
-    else:
-        form = forms.PhotoUploadForm()
-
-    return render(
-        request=request,
-        template_name='photos/upload.html',
-
-        context={
-            'form': form,
-        }
-    )
-
-
-def view_photo(request, photo_id):
-    photo = models.Photo.objects.get(id=photo_id)
-
-    return HttpResponse(f'Picture path: {photo.picture}')
+class PhotoDetailView(DetailView):
+    model = models.Photo

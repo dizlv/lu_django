@@ -17,11 +17,20 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
+from django.contrib.auth.views import LoginView, LogoutView
 
 from photos import views
+from users import views as users_views
 
 urlpatterns = [
-    path('photo/upload/', views.upload_photo),
-    path('photo/<int:photo_id>/', views.view_photo),
+    path('', users_views.UsersListView.as_view(), name='users'),
+    path('user/<int:pk>/', users_views.UserPhotosView.as_view(), name='user-photos'),
+    path('register/', users_views.RegisterView.as_view(), name='register'),
+    path('login/', LoginView.as_view(template_name='users/login.html'), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+
+    path('photo/upload/', views.PhotoUploadFormView.as_view(), name='photo-upload'),
+    path('photo/<int:pk>/', views.PhotoDetailView.as_view(), name='photo-detail'),
+
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
