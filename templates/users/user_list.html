@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        <ul>
+        {% for user in object_list %}
+            <li><a href="{% url 'user-profile' user.pk %}">{{ user.username }}</a></li>
+        {% endfor %}
+        </ul>
+    </body>
+</html>

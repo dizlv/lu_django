@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>User Detail</title>
+    </head>
+    <body>
+        <h1>{{ object.email }}</h1>
+
+        {% for photo in photos %}
+            <img src="{{ photo.picture.url }}" alt="">
+        {% endfor %}
+    </body>
+</html>

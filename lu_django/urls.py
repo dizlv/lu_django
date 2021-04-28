@@ -19,8 +19,14 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from photos import views
+from users import views as users_views
+
 
 urlpatterns = [
+    path('', users_views.UserListView.as_view(), name='users'),
+    path('user/<int:pk>/', users_views.UserDetailView.as_view(), name='user-profile'),
+    path('register/', users_views.RegisterView.as_view(), name='register'),
+
     path('photo/upload/', views.upload_photo),
     path('photo/<int:photo_id>/', views.view_photo),
     path('admin/', admin.site.urls),
